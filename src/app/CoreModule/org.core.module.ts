@@ -1,13 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 
-import { OrgCoreRouter } from "./org.core.router";
+import { OrgCoreRouter } from './org.core.router';
 
-import { OrgSharedModule } from "../SharedModule/org.shared.module";
-import { OrgOrganizeModule } from "../OrganizeModule/org.organize.module";
+import { OrgSharedModule } from '../SharedModule/org.shared.module';
+import { OrgListModule } from '../OrganizeListModule/org.organize.list.module';
 
-import { OrgCoreComponent } from "./org.core.component";
-
+import { OrgCoreComponent } from './org.core.component';
 
 @NgModule({
     declarations: [
@@ -16,7 +15,7 @@ import { OrgCoreComponent } from "./org.core.component";
     imports: [
         BrowserModule,
         OrgSharedModule,
-        OrgOrganizeModule,
+        OrgListModule,
         OrgCoreRouter
     ],
     exports: [
@@ -27,5 +26,5 @@ import { OrgCoreComponent } from "./org.core.component";
     ]
 })
 export class OrgCoreModule {
-    
+
 }
