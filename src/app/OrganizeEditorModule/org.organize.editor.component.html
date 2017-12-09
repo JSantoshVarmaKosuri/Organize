@@ -1,0 +1,41 @@
+<header>
+    <div (click)="onBack()">
+        <i class="glyphicon glyphicon-menu-left"></i>
+    </div>
+    <section>
+
+    </section>
+    <div (click)="onPin()">
+        <i class="glyphicon glyphicon-pushpin"></i>
+    </div>
+    <div (click)="onReminder()">
+        <i class="glyphicon glyphicon-calendar"></i>
+    </div>
+    <div (click)="onArchive()">
+        <i class="glyphicon glyphicon-save-file"></i>
+    </div>
+</header>
+
+<org-editor-notes *ngIf="toggelAddFeatures" (select)="onAddFeatureClose()"></org-editor-notes>
+<org-editor-options *ngIf="toggelOptions" (select)="onOptionsClose()"></org-editor-options>
+
+<section class="list-editor-container">
+
+    <!-- Editor body -->
+    <article class="list-editor">
+
+    </article>
+
+    <!-- Editor footer -->
+    <footer class="list-editor-options"> 
+        <div (click)="onAddFeatures()">
+            <i class="glyphicon glyphicon-plus"></i>
+        </div>
+        <section>
+            <p>Time</p>
+        </section>
+        <div (click)="onOptions()">
+            <i class="glyphicon glyphicon-option-horizontal"></i>
+        </div>
+    </footer>
+</section>

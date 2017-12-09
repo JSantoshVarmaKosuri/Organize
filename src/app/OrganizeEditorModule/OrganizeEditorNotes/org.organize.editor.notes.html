@@ -1,0 +1,35 @@
+<section class="options-menu-container" [@notesOptions]="toggleState">
+    <ul class="options-menu">
+        <li>
+            <div class="options-menu-item">
+                <i class="glyphicon glyphicon-camera"></i>
+                <p>Camera</p>
+            </div>
+        </li>
+        <li>
+            <div class="options-menu-item">
+                <i class="glyphicon glyphicon-picture"></i>
+                <p>Image</p>
+            </div>
+        </li>
+        <li>
+            <div class="options-menu-item">
+                <i class="glyphicon glyphicon-record"></i>
+                <p>Record</p>
+            </div>
+        </li>
+        <li>
+            <div class="options-menu-item">
+                <i class="glyphicon glyphicon-pencil"></i>
+                <p>Draw</p>
+            </div>
+        </li>
+        <li>
+            <div class="options-menu-item">
+                <i class="glyphicon glyphicon-th-list"></i>
+                <p>List</p>
+            </div>
+        </li>
+    </ul>
+</section>
+<div class="mask" (click)="onMask()"></div>

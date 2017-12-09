@@ -1,0 +1,35 @@
+<section class="options-menu-container" [@notesOptions]="toggleState">
+    <ul class="options-menu">
+        <li>
+            <div class="options-menu-item">
+                <i class="glyphicon glyphicon-trash"></i>
+                <p>Delete</p>
+            </div>
+        </li>
+        <li>
+            <div class="options-menu-item">
+                <i class="glyphicon glyphicon-duplicate"></i>
+                <p>Duplicate</p>
+            </div>
+        </li>
+        <li>
+            <div class="options-menu-item">
+                <i class="glyphicon glyphicon-send"></i>
+                <p>Send</p>
+            </div>
+        </li>
+        <li>
+            <div class="options-menu-item">
+                <i class="glyphicon glyphicon-user"></i>
+                <p>Contributors</p>
+            </div>
+        </li>
+        <li>
+            <div class="options-menu-item">
+                <i class="glyphicon glyphicon-tags"></i>
+                <p>Tags</p>
+            </div>
+        </li>
+    </ul>
+</section>
+<div class="mask" (click)="onMask()"></div>

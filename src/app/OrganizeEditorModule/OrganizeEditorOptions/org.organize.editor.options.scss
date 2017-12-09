@@ -1,0 +1,31 @@
+.options-menu-container {
+    position: fixed;
+    height: 200px;
+    width: 100%;
+    transform: translateY(200%);
+    border-top: 1px solid #e5e5e5;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 999;
+}
+
+.options-menu {
+    list-style: none;
+    margin: 0px;
+    padding: 0em 1em;
+}
+
+.options-menu-item {
+    display: flex;
+    padding: 0.5em;
+
+    i {
+        padding-right: 0.5em;
+        font-size: 1.5em;
+    }
+
+    p {
+        margin: 0px;
+        padding: 0.2em 0em;
+        flex: 1;
+    }
+}

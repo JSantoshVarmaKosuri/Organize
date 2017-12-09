@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'org-organize',
@@ -10,7 +11,7 @@ export class OrgListComponent {
     toggleState: string;
     toggleLayout: string;
 
-    constructor() {
+    constructor(private router: Router) {
         this.toggleMenu = false;
         this.toggleState = 'inactive';
         this.toggleLayout = 'list';
@@ -30,18 +31,22 @@ export class OrgListComponent {
     }
 
     onList() {
-
+        this.router.navigate(['/editor', 'list']);
     }
 
     onNote() {
-
+        this.router.navigate(['/editor', 'note']);
     }
 
     onRecord() {
+        this.router.navigate(['/editor', 'record']);
+    }
 
+    onDrawing() {
+        this.router.navigate(['/editor', 'draw']);
     }
 
     onCamera() {
-
+        this.router.navigate(['/editor', 'camera']);
     }
 }

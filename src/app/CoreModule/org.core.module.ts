@@ -6,6 +6,7 @@ import { OrgCoreRouter } from './org.core.router';
 
 import { OrgSharedModule } from '../SharedModule/org.shared.module';
 import { OrgListModule } from '../OrganizeListModule/org.organize.list.module';
+import { OrganizeEditorModule } from '../OrganizeEditorModule/org.organize.editor.module';
 
 import { OrgCoreComponent } from './org.core.component';
 
@@ -17,6 +18,7 @@ import { OrgCoreComponent } from './org.core.component';
         BrowserModule,
         OrgSharedModule,
         OrgListModule,
+        OrganizeEditorModule,
         OrgCoreRouter
     ],
     exports: [
