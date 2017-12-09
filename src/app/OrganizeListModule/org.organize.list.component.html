@@ -1,1 +1,46 @@
-List Page
+<header>
+    <div (click)="onMenu()">
+        <i class="glyphicon glyphicon-menu-hamburger"></i>
+    </div>
+    <h3>
+        Notes
+    </h3>
+
+    <div (click)="onSearch()">
+        <i class="glyphicon glyphicon-search"></i>
+    </div>
+
+    <div (click)="onLayout()">
+        <i class="glyphicon glyphicon-th" *ngIf="toggleLayout === 'list'"></i>
+        <i class="glyphicon glyphicon-th-list" *ngIf="toggleLayout === 'grid'"></i>
+    </div>
+</header>
+
+<org-menu [toggleState]="toggleState" (onMenu)="onMenu()"></org-menu>
+
+<section class="container list-notes-container">
+
+    <!-- Notes Lists -->
+    <article class="list-notes">
+        
+    </article>
+
+    <!-- Notes Actions -->
+    <footer class="list-notes-options">
+        <section (click)="onNote()">
+            Take Note...
+        </section>
+        <div (click)="onList()">
+            <i class="glyphicon glyphicon-th-list"></i>
+        </div>
+        <div (click)="onNote()">
+            <i class="glyphicon glyphicon-pencil"></i>
+        </div>
+        <div (click)="onRecord()">
+            <i class="glyphicon glyphicon-record"></i>
+        </div>
+        <div (click)="onCamera()"> 
+            <i class="glyphicon glyphicon-camera"></i>
+        </div>
+    </footer>
+</section>
