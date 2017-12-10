@@ -35,6 +35,8 @@ header {
 .list-editor {
     height: calc(100% - 50px);
     box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .list-editor-options {
@@ -62,5 +64,29 @@ header {
             font-size: 1.5em;
             color: #3c3c3c;
         }
+    }
+}
+
+.list-text-editor {
+    height: 100%;
+    
+    div.editable {
+        width: 100%;
+        padding: 0.4em 0.8em;
+        outline: none;
+        border: 0px;
+        font-size: 1.6em;
+    }
+
+    div.editable.title {
+        min-height: 30px;
+        line-height: 30px;
+        font-size: 1.6em;
+    }
+
+    div.editable.description {
+        min-height: calc(100% - 40px);
+        font-size: 1.2em;
+        padding: 0.4em 1em;
     }
 }

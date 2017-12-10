@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { OrganizeEditorComponent } from './org.organize.editor.component';
 
 const routes: Routes = [
-    { path: 'editor/:type' , component: OrganizeEditorComponent }
+    { path: 'editor/:type' , component: OrganizeEditorComponent },
+    { path: 'editor/:type/:id' , component: OrganizeEditorComponent }
 ];
 
 @NgModule({

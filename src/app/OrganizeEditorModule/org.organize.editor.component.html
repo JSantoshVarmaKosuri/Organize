@@ -23,7 +23,10 @@
 
     <!-- Editor body -->
     <article class="list-editor">
-
+        <div class="list-text-editor" *ngIf="type === 'note'">
+            <div class="editable title" contenteditable="true" [orgPlaceholder]="placeholders.title" #title></div>
+            <div class="editable description" contenteditable="true" [orgPlaceholder]="placeholders.description" #description></div>
+        </div>
     </article>
 
     <!-- Editor footer -->

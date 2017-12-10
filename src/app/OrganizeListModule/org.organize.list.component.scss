@@ -35,6 +35,25 @@ header {
 .list-notes {
     height: calc(100% - 50px);
     box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    
+    ul {
+        margin: 0px;
+        padding: 0.5em;
+    }
+
+    ul.block {
+        margin: 0;
+        list-style: none;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-flow: row wrap;
+        justify-content: space-around;
+    }
 }
 
 .list-notes-options {

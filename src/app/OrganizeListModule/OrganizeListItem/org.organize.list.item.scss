@@ -1,0 +1,22 @@
+li.list-item {
+    margin: 0px;
+    margin-bottom: 10px;
+    border: 1px solid #c7c7c7;
+    border-radius: 0.2em;
+    
+    p {
+        margin: 0px;
+        padding: 0.4em 0.8em;
+        word-break: break-all;
+        word-wrap: break-word;
+    }
+
+    p.title {
+        font-size: 1.6em;
+        font-weight: bold;
+    }
+
+    p.description {
+        font-size: 1.2em;
+    }
+}

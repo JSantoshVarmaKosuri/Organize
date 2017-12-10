@@ -1,0 +1,6 @@
+<li class="list-item" (click)="onListItem()">
+    <div>
+        <p *ngIf="item.title !== null" class="title">{{item.title}}</p>
+        <p *ngIf="item.description !== null" class="description">{{item.description}}</p>
+    </div>
+</li>

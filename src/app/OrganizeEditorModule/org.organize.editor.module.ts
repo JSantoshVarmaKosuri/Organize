@@ -8,11 +8,14 @@ import { OrganizeEditorComponent } from './org.organize.editor.component';
 import { OrganizeEditorNotesComponent } from './OrganizeEditorNotes/org.organize.editor.notes';
 import { OrganizeEditorOptionsComponent } from './OrganizeEditorOptions/org.organize.editor.options';
 
+import { OrganizePlaceholderDirective } from './Directives/org.organize.placeholder.directive';
+
 @NgModule({
     declarations: [
         OrganizeEditorComponent,
         OrganizeEditorNotesComponent,
-        OrganizeEditorOptionsComponent
+        OrganizeEditorOptionsComponent,
+        OrganizePlaceholderDirective
     ],
     imports: [
         OrgSharedModule,

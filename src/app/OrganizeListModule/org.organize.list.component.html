@@ -22,7 +22,9 @@
 
     <!-- Notes Lists -->
     <article class="list-notes">
-        
+        <ul [ngClass]="{'block' : toggleLayout === 'grid'}">
+            <org-list-item *ngFor="let item of (listState | async).list" [item]="item"></org-list-item>
+        </ul>
     </article>
 
     <!-- Notes Actions -->
