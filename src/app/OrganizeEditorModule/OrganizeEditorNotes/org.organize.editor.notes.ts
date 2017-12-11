@@ -32,4 +32,11 @@ export class OrganizeEditorNotesComponent {
             this.select.emit();
         }, 500);
     }
+
+    onItem(type) {
+        this.toggleState = 'inactive';
+        setTimeout(() => {
+            this.select.emit(type);
+        }, 500);
+    }
 }

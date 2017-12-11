@@ -29,9 +29,10 @@ export class OrganizeEditorComponent implements OnInit {
 
     @ViewChild('title') title: ElementRef;
     @ViewChild('description') description: ElementRef;
+    @ViewChild('image') imageInput: ElementRef;
 
     constructor(private router: Router, private route: ActivatedRoute,
-                private store: Store<AppState>, 
+                private store: Store<AppState>,
                 private listService: OrganizeListService,
                 private _DomSanitizationService: DomSanitizer) {
         this.toggelAddFeatures = false;
@@ -116,8 +117,11 @@ export class OrganizeEditorComponent implements OnInit {
         this.toggelAddFeatures = true;
     }
 
-    onAddFeatureClose() {
+    onAddFeatureClose(type) {
         this.toggelAddFeatures = false;
+        if (type === 'Camera') {
+            this.onCamera();
+        }
     }
 
     onOptions() {
@@ -126,5 +130,19 @@ export class OrganizeEditorComponent implements OnInit {
 
     onOptionsClose() {
         this.toggelOptions = false;
+    }
+
+    onCamera() {
+        this.imageInput.nativeElement.click();
+    }
+
+    onCameraChange(event) {
+        const file = event.target.files;
+
+        if (file.length) {
+            const url = URL.createObjectURL(file[0]);
+            this.listItem.image.push(url);
+            event.target.value = '';
+        }
     }
 }

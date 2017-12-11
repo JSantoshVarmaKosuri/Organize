@@ -28,6 +28,8 @@ export class OrgListComponent implements OnInit {
                 private listService: OrganizeListService) {
         this.toggleMenu = false;
         this.toggleState = 'inactive';
+        this.toggleLayout = 'list';
+        this.listService.layout = 'list';
     }
 
     ngOnInit() {
@@ -40,7 +42,7 @@ export class OrgListComponent implements OnInit {
     }
 
     onLayout() {
-        this.listService.layout = (this.listService.layout === 'list') ? 'grid' : 'list';
+        this.toggleLayout = (this.toggleLayout === 'list') ? 'grid' : 'list';
     }
 
     onSearch() {
@@ -77,7 +79,6 @@ export class OrgListComponent implements OnInit {
         if (file.length) {
             const url = URL.createObjectURL(file[0]);
             this.listService.createListItem('camera', null, null, null, null, [], [], [url]);
-            event.target.value = '';
             this.router.navigate(['/editor', 'camera']);
         }
     }
