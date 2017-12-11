@@ -24,7 +24,7 @@
     <!-- Editor body -->
     <article class="list-editor">
         <section *ngIf="listItem.type === 'camera' && listItem.image.length">
-            <img [src]="_DomSanitizationService.bypassSecurityTrustUrl(listItem.image[0])"/>
+            <img class="listImage" [src]="_DomSanitizationService.bypassSecurityTrustUrl(listItem.image[0])"/>
         </section>
 
         <div class="list-text-editor" [ngClass]="{'list-editor-alternate' : listItem.type !== 'note'}">
