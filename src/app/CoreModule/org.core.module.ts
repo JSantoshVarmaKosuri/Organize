@@ -12,6 +12,8 @@ import { OrgCoreComponent } from './org.core.component';
 
 import { ListReducers } from '../SharedModule/Stores/ListStore/org.organize.list.reducer';
 
+import { OrganizeListService } from '../SharedModule/Services/org.organize.list.service';
+
 @NgModule({
     declarations: [
         OrgCoreComponent
@@ -26,6 +28,9 @@ import { ListReducers } from '../SharedModule/Stores/ListStore/org.organize.list
     ],
     exports: [
 
+    ],
+    providers: [
+        OrganizeListService
     ],
     bootstrap: [
         OrgCoreComponent

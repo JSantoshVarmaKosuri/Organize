@@ -1,4 +1,8 @@
 <li class="list-item" (click)="onListItem()">
+    <div *ngIf="item.image && item.image.length">
+        <img *ngFor="let url of item.image" [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)" />
+    </div>
+
     <div>
         <p *ngIf="item.title !== null" class="title">{{item.title}}</p>
         <p *ngIf="item.description !== null" class="description">{{item.description}}</p>

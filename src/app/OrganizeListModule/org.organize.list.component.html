@@ -27,6 +27,9 @@
         </ul>
     </article>
 
+    <!-- Hidden Inputs -->
+    <input style="display: none;" type="file" accept="image/*" capture #image (change)="onCameraChange($event)" />
+
     <!-- Notes Actions -->
     <footer class="list-notes-options">
         <section (click)="onNote()">

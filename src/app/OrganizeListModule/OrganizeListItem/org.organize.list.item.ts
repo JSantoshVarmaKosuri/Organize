@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { ListItemModel } from '../../SharedModule/Stores/Models/org.list.model';
@@ -11,7 +12,8 @@ import { ListItemModel } from '../../SharedModule/Stores/Models/org.list.model';
 export class OrganizeListItemComponent implements OnInit {
     @Input() item: ListItemModel;
 
-    constructor(private router: Router) {}
+    constructor(private router: Router,
+                private _DomSanitizationService: DomSanitizer) {}
 
     ngOnInit() {
 

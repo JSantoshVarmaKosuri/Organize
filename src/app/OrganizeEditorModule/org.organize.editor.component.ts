@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {DomSanitizer} from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/take';
@@ -7,6 +8,8 @@ import { AppState } from '../SharedModule/Models/org.organize.application.models
 import { ListItem, ListItemModel } from '../SharedModule/Stores/Models/org.list.model';
 
 import * as fromListActions from '../SharedModule/Stores/ListStore/org.organize.list.actions';
+
+import { OrganizeListService } from '../SharedModule/Services/org.organize.list.service';
 
 @Component({
     selector: 'org-editor',
@@ -28,7 +31,9 @@ export class OrganizeEditorComponent implements OnInit {
     @ViewChild('description') description: ElementRef;
 
     constructor(private router: Router, private route: ActivatedRoute,
-                private store: Store<AppState>) {
+                private store: Store<AppState>, 
+                private listService: OrganizeListService,
+                private _DomSanitizationService: DomSanitizer) {
         this.toggelAddFeatures = false;
         this.route.params
         .subscribe((params) => {
@@ -37,20 +42,11 @@ export class OrganizeEditorComponent implements OnInit {
         });
     }
 
-    createListItem() {
-        this.listItem = new ListItem(
-            (this.id) ? this.id : (new Date).valueOf().toString(),
-            new Date().toUTCString(),
-            this.type,
-            '',
-            '',
-            {
-                active: [],
-                completed: []
-            },
-            [],
-            [],
-            []);
+    linkActiveItem() {
+        if(!this.listService.activeListItem) {
+            this.listService.createListItem(this.type,null, '', '', {active:[], completed: []}, [], [], []);
+        }
+        this.listItem = this.listService.activeListItem;
     }
 
     ngOnInit() {
@@ -62,19 +58,23 @@ export class OrganizeEditorComponent implements OnInit {
                 if (listItem) {
                     listItem.createdAt = (new Date).valueOf().toString();
                     this.listItem = listItem;
+                    this.listService.activeListItem = listItem;
                 } else {
-                    this.createListItem();
+                    this.linkActiveItem();
                 }
             });
         } else {
-            this.createListItem();
+            this.linkActiveItem();
         }
     }
 
     validate(title: string,
              description: string): boolean {
 
-        if((description && this.listItem.type !== 'list') || !!title) {
+        if((description && this.listItem.type !== 'list') 
+        || !!title 
+        || (this.listItem.todo && (this.listItem.todo.active.length || this.listItem.todo.completed.length))
+        || (this.listItem.image.length)) {
             return true;
         } else {
             return false;
@@ -96,6 +96,7 @@ export class OrganizeEditorComponent implements OnInit {
             }
         }
 
+        this.listService.activeListItem = null;
         this.router.navigate(['/list']);
     }
 
