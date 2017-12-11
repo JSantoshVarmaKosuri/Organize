@@ -1,25 +1,30 @@
 export interface ListItemModel {
     id: string;
+    createdAt: string;
     type: string;
     title: string;
     description: string;
-    todo: string[];
-    drawing: boolean;
-    recording: boolean;
-    image: boolean;
-    source: string;
+    todo: TodoListModel;
+    drawing: string[];
+    recording: string[];
+    image: string[];
+}
+
+export interface TodoListModel {
+    active: string[],
+    completed: string[]
 }
 
 export class ListItem implements ListItemModel {
     constructor(public id: string,
+                public createdAt: string,
                 public type: string,
                 public title: string,
                 public description: string,
-                public todo: string[],
-                public drawing: boolean,
-                public recording: boolean,
-                public image: boolean,
-                public source: string
+                public todo: TodoListModel,
+                public drawing: string[],
+                public recording: string[],
+                public image: string[]
             ) {}
 }
 

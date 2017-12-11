@@ -7,6 +7,7 @@ import { OrgSharedModule } from '../SharedModule/org.shared.module';
 import { OrganizeEditorComponent } from './org.organize.editor.component';
 import { OrganizeEditorNotesComponent } from './OrganizeEditorNotes/org.organize.editor.notes';
 import { OrganizeEditorOptionsComponent } from './OrganizeEditorOptions/org.organize.editor.options';
+import { OrganizeEditorTodoComponent } from './OrganiseEditorTodo/org.organize.todo';
 
 import { OrganizePlaceholderDirective } from './Directives/org.organize.placeholder.directive';
 
@@ -15,7 +16,8 @@ import { OrganizePlaceholderDirective } from './Directives/org.organize.placehol
         OrganizeEditorComponent,
         OrganizeEditorNotesComponent,
         OrganizeEditorOptionsComponent,
-        OrganizePlaceholderDirective
+        OrganizePlaceholderDirective,
+        OrganizeEditorTodoComponent
     ],
     imports: [
         OrgSharedModule,

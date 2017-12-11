@@ -39,6 +39,10 @@ header {
     overflow-y: auto;
 }
 
+.list-editor-alternate {
+    height: auto !important;
+}
+
 .list-editor-options {
     display: flex;
     height: $heightOffset;

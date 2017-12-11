@@ -3,4 +3,12 @@
         <p *ngIf="item.title !== null" class="title">{{item.title}}</p>
         <p *ngIf="item.description !== null" class="description">{{item.description}}</p>
     </div>
+
+    <div *ngIf="item.todo.active.length || item.todo.completed.length">
+        <ul>
+         <li *ngFor="let active of item.todo.active">
+             <p>{{active}}</p>
+         </li>
+        </ul>
+    </div>
 </li>

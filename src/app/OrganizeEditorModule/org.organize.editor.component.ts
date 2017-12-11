@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/take';
@@ -13,7 +13,7 @@ import * as fromListActions from '../SharedModule/Stores/ListStore/org.organize.
     templateUrl: 'org.organize.editor.component.html',
     styleUrls: ['org.organize.editor.component.scss']
 })
-export class OrganizeEditorComponent implements OnInit, AfterViewChecked {
+export class OrganizeEditorComponent implements OnInit {
     toggelAddFeatures: boolean;
     toggelOptions: boolean;
     type: string;
@@ -37,56 +37,62 @@ export class OrganizeEditorComponent implements OnInit, AfterViewChecked {
         });
     }
 
+    createListItem() {
+        this.listItem = new ListItem(
+            (this.id) ? this.id : (new Date).valueOf().toString(),
+            new Date().toUTCString(),
+            this.type,
+            '',
+            '',
+            {
+                active: [],
+                completed: []
+            },
+            [],
+            [],
+            []);
+    }
+
     ngOnInit() {
         if (this.id) {
             this.store.select('listStore')
             .take(1)
             .subscribe((data) => {
-                this.listItem = data.list.find((item) => item.id === this.id);
+                const listItem = data.list.find((item) => item.id === this.id);
+                if (listItem) {
+                    listItem.createdAt = (new Date).valueOf().toString();
+                    this.listItem = listItem;
+                } else {
+                    this.createListItem();
+                }
             });
-        }
-    }
-
-    ngAfterViewChecked() {
-        if (this.listItem) {
-            this.title.nativeElement.innerText = this.listItem.title;
-            this.description.nativeElement.innerText = this.listItem.description;
-            this.listItem = null;
-        }
-    }
-
-    validate() {
-        const title = this.title.nativeElement.innerText;
-        const description = this.description.nativeElement.innerText;
-
-        if ((title === ''  || title === this.placeholders.title)
-            && (description === ''  || description === this.placeholders.description)) {
-            return false;
         } else {
+            this.createListItem();
+        }
+    }
+
+    validate(title: string,
+             description: string): boolean {
+
+        if((description && this.listItem.type !== 'list') || !!title) {
             return true;
+        } else {
+            return false;
         }
     }
 
     onBack() {
-        const title = this.title.nativeElement.innerText;
-        const description = this.description.nativeElement.innerText;
-
-        if (this.validate()) {
-            const listItem = new ListItem(
-                                (this.id ? this.id : new Date).valueOf().toString(),
-                                this.type,
-                                (title === ''  || title === this.placeholders.title) ? null : title,
-                                (description === ''  || description === this.placeholders.description) ? null : description,
-                                [],
-                                false,
-                                false,
-                                false,
-                                null);
+        const title = (this.listItem.title === '' || this.listItem.title === this.placeholders.title) ? null : this.listItem.title;
+        const description = (this.listItem.description === '' || this.listItem.description === this.placeholders.description) ? null : this.listItem.description;
+        
+        if (this.validate(title, description)) {
+            this.listItem.title = title;
+            this.listItem.description = description;         
 
             if (this.id) {
-                this.store.dispatch(new fromListActions.UpdateListItem(listItem));
+                this.store.dispatch(new fromListActions.UpdateListItem(this.listItem));
             } else {
-                this.store.dispatch(new fromListActions.AddListItem(listItem));
+                this.store.dispatch(new fromListActions.AddListItem(this.listItem));
             }
         }
 

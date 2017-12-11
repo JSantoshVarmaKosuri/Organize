@@ -1,0 +1,55 @@
+section.todo-container {
+    margin: 0px;
+    padding: 0.5em 1em;
+
+    ul {
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    hr {
+        margin: 0.4em 0em;
+    }
+
+    > div {
+        display: flex;
+        font-size: 0.8em;
+        color: #818181;
+
+        i {
+            margin-right: 5px;
+        }
+    }
+}
+
+ul.todo-active-list {
+    li {
+        display: flex;
+
+        input[type='checkbox'] {
+            margin-right: 10px;
+        }
+
+        input[type='text'] {
+            border: 0px;
+            outline: 0px;
+            margin-bottom: 5px;
+            flex: 1;
+        }
+
+        i {
+            margin-left:  10px;
+            font-size: 1.2em;
+        }
+    }
+}
+
+ul.todo-completed-list {
+    li {
+        p {
+            text-decoration: line-through;
+            color: #818181;
+        }
+    }
+}

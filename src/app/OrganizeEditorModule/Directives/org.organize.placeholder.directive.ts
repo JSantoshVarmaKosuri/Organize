@@ -1,11 +1,12 @@
-import { Directive, ElementRef, Input, HostListener, HostBinding, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, HostListener, HostBinding, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Directive({
     selector: '[orgPlaceholder]'
 })
 export class OrganizePlaceholderDirective implements OnInit {
     @Input() orgPlaceholder: string;
-    @HostBinding('innerText') text = '';
+    @Input() orgValue: string;
+
     @HostBinding('style.color') color = '#656565';
 
     constructor(private eleRef: ElementRef) {}
@@ -21,6 +22,7 @@ export class OrganizePlaceholderDirective implements OnInit {
 
     @HostListener('keyup') onKeyup() {
         this.color = '#3c3c3c';
+        this.orgValue = this.eleRef.nativeElement.innerText;
     }
 
     @HostListener('blur') onBlur() {
@@ -31,6 +33,6 @@ export class OrganizePlaceholderDirective implements OnInit {
     }
 
     ngOnInit() {
-        this.text = this.orgPlaceholder;
+        this.eleRef.nativeElement.innerText = this.orgValue || this.orgPlaceholder;
     }
 }

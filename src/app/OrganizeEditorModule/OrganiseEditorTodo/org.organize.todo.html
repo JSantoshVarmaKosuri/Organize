@@ -1,0 +1,19 @@
+<section class="todo-container">
+    <ul class="todo-active-list" >
+        <li *ngFor="let activeItem of todoList.active; let i = index;">
+            <input type="checkbox" (change)="onChangeActiveItem(i)">
+            <input type="text" [value]="activeItem" (blur)="onTextType($event, i)" />
+            <i class="glyphicon glyphicon-remove-sign" (click)="onRemoveActiveItem(i)"></i>
+        </li>
+    </ul>
+    <div (click)="onAddActiveItem()" *ngIf="showAddTodo || todoList.active.length === 0">
+        <i class="glyphicon glyphicon-plus"></i>
+        <p>Add Todo</p>
+    </div>
+    <hr />
+    <ul class="todo-completed-list" *ngIf="todoList.completed.length">
+        <li *ngFor="let completedItem of todoList.completed; let i = index;">
+            <p (click)="onChangeCompletedItem(i)">{{ completedItem }}</p>
+        </li>
+    </ul>
+</section>

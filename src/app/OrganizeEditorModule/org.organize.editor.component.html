@@ -23,10 +23,15 @@
 
     <!-- Editor body -->
     <article class="list-editor">
-        <div class="list-text-editor" *ngIf="type === 'note'">
-            <div class="editable title" contenteditable="true" [orgPlaceholder]="placeholders.title" #title></div>
-            <div class="editable description" contenteditable="true" [orgPlaceholder]="placeholders.description" #description></div>
+        <div class="list-text-editor" [ngClass]="{'list-editor-alternate' : listItem.type !== 'note'}">
+            <div class="editable title" contenteditable="true" [orgPlaceholder]="placeholders.title" 
+                [orgValue]="listItem.title" (input)="listItem.title = $event.target.innerText" #title></div>
+            <div class="editable description" contenteditable="true" [orgPlaceholder]="placeholders.description" 
+                [orgValue]="listItem.description" (input)="listItem.description = $event.target.innerText" 
+                *ngIf="listItem.type !== 'list'" #description></div>
         </div>
+
+        <org-todo *ngIf="listItem.type === 'list'" [todoList]="listItem.todo"></org-todo>
     </article>
 
     <!-- Editor footer -->
@@ -35,7 +40,7 @@
             <i class="glyphicon glyphicon-plus"></i>
         </div>
         <section>
-            <p>Time</p>
+            <p>{{ (id) ? 'Edited : ' : 'Created : ' }} {{ listItem.createdAt | date:'short'}}</p>
         </section>
         <div (click)="onOptions()">
             <i class="glyphicon glyphicon-option-horizontal"></i>
