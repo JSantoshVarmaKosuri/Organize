@@ -1,5 +1,5 @@
 <li class="list-item" (click)="onListItem()">
-    <div *ngIf="item.image && item.image.length">
+    <div *ngIf="item.image && item.image.length" [ngClass]="{'block' : item.image.length > 1}">
         <img class="listImage" *ngFor="let url of item.image" [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)" />
     </div>
 

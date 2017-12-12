@@ -14,6 +14,8 @@ import { ListReducers } from '../SharedModule/Stores/ListStore/org.organize.list
 
 import { OrganizeListService } from '../SharedModule/Services/org.organize.list.service';
 
+import { OrganizeDrawModule } from '../OrganizeDrawModule/org.organize.draw.module';
+
 @NgModule({
     declarations: [
         OrgCoreComponent
@@ -23,6 +25,7 @@ import { OrganizeListService } from '../SharedModule/Services/org.organize.list.
         OrgSharedModule,
         OrgListModule,
         OrganizeEditorModule,
+        OrganizeDrawModule,
         OrgCoreRouter,
         StoreModule.forRoot({ listStore: ListReducers})
     ],

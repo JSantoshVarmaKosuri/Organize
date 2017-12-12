@@ -37,6 +37,18 @@ header {
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: auto;
+
+    section.block {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+
+        > img {
+            display: block;
+            max-width: 50%;
+        }
+    }
 }
 
 .list-editor-alternate {

@@ -4,6 +4,18 @@ li.list-item {
     border: 1px solid #c7c7c7;
     border-radius: 0.2em;
     width: 100%;
+
+    div.block {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+
+        > img {
+            display: block;
+            max-width: 50%;
+        }
+    }
     
     p {
         margin: 0px;

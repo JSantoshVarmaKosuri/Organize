@@ -23,7 +23,7 @@
 
     <!-- Editor body -->
     <article class="list-editor">
-        <section *ngIf="listItem.type === 'camera' && listItem.image.length">
+        <section *ngIf="listItem.type === 'camera' && listItem.image.length" [ngClass]="{'block' : listItem.image.length > 1}">
             <img *ngFor="let url of listItem.image" class="listImage" [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)"/>
         </section>
 
