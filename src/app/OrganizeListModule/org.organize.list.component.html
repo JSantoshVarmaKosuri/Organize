@@ -11,8 +11,8 @@
     </div>
 
     <div (click)="onLayout()">
-        <i class="glyphicon glyphicon-th" *ngIf="listService.layout === 'list'"></i>
-        <i class="glyphicon glyphicon-th-list" *ngIf="listService.layout === 'grid'"></i>
+        <i class="glyphicon glyphicon-th" *ngIf="this.toggleLayout === 'list'"></i>
+        <i class="glyphicon glyphicon-th-list" *ngIf="this.toggleLayout === 'grid'"></i>
     </div>
 </header>
 
@@ -22,7 +22,7 @@
 
     <!-- Notes Lists -->
     <article class="list-notes">
-        <ul [ngClass]="{'block' : listService.layout === 'grid'}">
+        <ul [ngClass]="{'block' : this.toggleLayout === 'grid'}">
             <org-list-item *ngFor="let item of (listState | async).list" [item]="item"></org-list-item>
         </ul>
     </article>

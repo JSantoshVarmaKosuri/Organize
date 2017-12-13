@@ -28,6 +28,7 @@ export class OrgListComponent implements OnInit {
                 private listService: OrganizeListService) {
         this.toggleMenu = false;
         this.toggleState = 'inactive';
+        this.toggleLayout = listService.layout;
     }
 
     ngOnInit() {
