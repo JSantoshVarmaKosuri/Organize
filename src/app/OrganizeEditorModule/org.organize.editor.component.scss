@@ -108,5 +108,14 @@ header {
 }
 
 .listAudio {
-    
+    display: flex;
+
+    audio {
+        flex: 1;
+    }
+
+    i {
+        line-height: 45px;
+        font-size: 1.5em;
+    }
 }

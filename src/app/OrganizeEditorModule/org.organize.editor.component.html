@@ -42,7 +42,10 @@
         <org-todo *ngIf="listItem.type === 'list'" [todoList]="listItem.todo"></org-todo>
 
         <section *ngIf="listItem.recording && listItem.recording.length">
-            <audio *ngFor="let url of listItem.recording" class="listAudio" [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)" controls></audio>
+            <div *ngFor="let url of listItem.recording; let i = index;" class="listAudio">
+                <audio [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)" controls></audio>
+                <i class="glyphicon glyphicon-remove-sign" (click)="onRemoveAudioItem(i)"></i>
+            </div>
         </section>
     </article>
 

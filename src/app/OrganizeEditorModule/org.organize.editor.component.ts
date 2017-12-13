@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -38,7 +38,8 @@ export class OrganizeEditorComponent implements OnInit {
     constructor(private router: Router, private route: ActivatedRoute,
                 private store: Store<AppState>,
                 private listService: OrganizeListService,
-                private _DomSanitizationService: DomSanitizer) {
+                private _DomSanitizationService: DomSanitizer,
+                private ref: ChangeDetectorRef) {
         this.toggelAddFeatures = false;
         this.route.params
         .subscribe((params) => {
@@ -70,6 +71,12 @@ export class OrganizeEditorComponent implements OnInit {
             });
         } else {
             this.linkActiveItem();
+        }
+
+        if (this.type === 'record') {
+            setTimeout(() => {
+                this.ref.detectChanges();
+            }, 4000, this);
         }
     }
 
@@ -181,23 +188,18 @@ export class OrganizeEditorComponent implements OnInit {
             navigator.getUserMedia({audio: true, video: false},
             function(stream) {
                 console.log(stream);
-                const timer = Observable.create((observer: Observer<any>) => {
-                    setTimeout(() => {
-                        if (stream.active) {
-                            const audio = URL.createObjectURL(stream);
-                            observer.next(audio);
-                        } else {
-                            observer.error('no audio');
-                        }
-                        const track = stream.getTracks()[0];
-                        track.stop();
-                    }, 3000);
-                });
-                timer.take(1).subscribe((audio) => {
-                    this.listItem.recording.push(audio);
-                }, (error) => {
-                    console.log(error);
-                });
+                setTimeout(() => {
+                    if (stream.active) {
+                        const audio = URL.createObjectURL(stream);
+                        console.log(audio);
+                        this.listItem.recording.push(audio);
+                        this.ref.detectChanges();
+                    } else {
+                        console.log('no audio');
+                    }
+                    const track = stream.getTracks()[0];
+                    track.stop();
+                }, 3000, this);
             }.bind(this),
             function(error) {
                 console.log('getUserMedia() error', error);
@@ -215,6 +217,12 @@ export class OrganizeEditorComponent implements OnInit {
             this.listItem.recording.push(audio);
             event.target.value = '';
         }
+    }
+
+    onRemoveAudioItem(index: number) {
+        console.log(index);
+        this.listItem.recording.splice(index, 1);
+        this.ref.detectChanges();
     }
 
     onDrawing() {

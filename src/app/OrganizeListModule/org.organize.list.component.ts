@@ -83,37 +83,30 @@ export class OrgListComponent implements OnInit {
     }
 
     onRecording() {
-        // if (navigator && navigator.mediaDevices) {
-        //     navigator.getUserMedia({audio: true, video: false},
-        //     function(stream) {
-        //         console.log(stream);
-        //         const timer = Observable.create((observer: Observer<any>) => {
-        //             setTimeout(() => {
-        //                 if (stream.active) {
-        //                     const audio = URL.createObjectURL(stream);
-        //                     observer.next(audio);
-        //                 } else {
-        //                     observer.error('no audio');
-        //                 }
-        //                 const track = stream.getTracks()[0];
-        //                 track.stop();
-        //             }, 3000);
-        //         });
-        //         timer.take(1).subscribe((audio) => {
-        //             this.listService.createListItem('record', null, null, null, null, [], [audio], []);
-        //             this.router.navigate(['/editor', 'record']);
-        //         }, (error) => {
-        //             console.log(error);
-        //         });
-        //     }.bind(this),
-        //     function(error) {
-        //         console.log('getUserMedia() error', error);
-        //     });
-        // } else {
-        //     this.recordingInput.nativeElement.click();
-        // }
-
-        this.recordingInput.nativeElement.click();
+        if (navigator && navigator.mediaDevices) {
+            this.listService.createListItem('record', null, null, null, null, [], [], []);
+            this.router.navigate(['/editor', 'record']);
+            navigator.getUserMedia({audio: true, video: false},
+            function(stream) {
+                console.log(stream);
+                setTimeout(() => {
+                    if (stream.active) {
+                        const audio = URL.createObjectURL(stream);
+                        console.log(audio);
+                        this.listService.activeListItem.recording.push(audio);
+                    } else {
+                        console.log('no audio');
+                    }
+                    const track = stream.getTracks()[0];
+                    track.stop();
+                }, 3000, this);
+            }.bind(this),
+            function(error) {
+                console.log('getUserMedia() error', error);
+            });
+        } else {
+            this.recordingInput.nativeElement.click();
+        }
     }
 
     onRecordingChange(event) {
