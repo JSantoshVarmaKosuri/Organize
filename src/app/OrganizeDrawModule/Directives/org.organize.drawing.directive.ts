@@ -25,13 +25,14 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
 
     @HostListener('touchstart', ['$event'])
     @HostListener('mousedown', ['$event']) onMouseDown($event) {
+        let mouseX, mouseY;
 
-        if ($event.touches.length) {
-            var mouseX = $event.touches[0].pageX - this.element.nativeElement.offsetLeft;
-            var mouseY = $event.touches[0].pageY - this.element.nativeElement.offsetTop;
+        if ($event.touches && $event.touches.length) {
+            mouseX = $event.touches[0].pageX - this.element.nativeElement.offsetLeft;
+            mouseY = $event.touches[0].pageY - this.element.nativeElement.offsetTop;
         } else {
-            var mouseX = $event.pageX - this.element.nativeElement.offsetLeft;
-            var mouseY = $event.pageY - this.element.nativeElement.offsetTop;
+            mouseX = $event.pageX - this.element.nativeElement.offsetLeft;
+            mouseY = $event.pageY - this.element.nativeElement.offsetTop;
         }
 
         this.startDrawing = true;
@@ -41,14 +42,15 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
 
     @HostListener('touchmove', ['$event'])
     @HostListener('mousemove', ['$event']) onMouseMove($event) {
-        if(this.startDrawing) {
+        if (this.startDrawing) {
+            let mouseX, mouseY;
 
-            if ($event.touches.length) {
-                var mouseX = $event.touches[0].pageX - this.element.nativeElement.offsetLeft;
-                var mouseY = $event.touches[0].pageY - this.element.nativeElement.offsetTop;
+            if ($event.touches && $event.touches.length) {
+                mouseX = $event.touches[0].pageX - this.element.nativeElement.offsetLeft;
+                mouseY = $event.touches[0].pageY - this.element.nativeElement.offsetTop;
             } else {
-                var mouseX = $event.pageX - this.element.nativeElement.offsetLeft;
-                var mouseY = $event.pageY - this.element.nativeElement.offsetTop;
+                mouseX = $event.pageX - this.element.nativeElement.offsetLeft;
+                mouseY = $event.pageY - this.element.nativeElement.offsetTop;
             }
 
             this.addClick(mouseX, mouseY, true);
@@ -60,7 +62,6 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
     @HostListener('mouseup')
     @HostListener('touchcancel')
     @HostListener('mouseleave') onMouseLeave() {
-        console.log('touchend');
         this.startDrawing = false;
     }
 
@@ -84,7 +85,7 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
         this.context.lineJoin = "round";
         this.context.lineEnd = "round";
         this.context.lineWidth = 5;
-                  
+
         for(var i=0; i < this.clickX.length; i++) {		
           this.context.beginPath();
           if(this.clickDrag[i] && i){
