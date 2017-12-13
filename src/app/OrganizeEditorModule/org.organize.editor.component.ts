@@ -190,10 +190,22 @@ export class OrganizeEditorComponent implements OnInit {
                 console.log(stream);
                 setTimeout(() => {
                     if (stream.active) {
-                        const audio = URL.createObjectURL(stream);
+                        const audio = window.URL.createObjectURL(stream);
                         console.log(audio);
                         this.listItem.recording.push(audio);
                         this.ref.detectChanges();
+
+                        const context = new AudioContext();
+                        const source = context.createMediaStreamSource(stream);
+                        const processor = context.createScriptProcessor(1024, 1, 1);
+
+                        source.connect(processor);
+                        processor.connect(context.destination);
+
+                        processor.onaudioprocess = function(e) {
+                          // Do something with the data, i.e Convert this to WAV
+                          console.log(e.inputBuffer);
+                        };
                     } else {
                         console.log('no audio');
                     }

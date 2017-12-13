@@ -91,7 +91,7 @@ export class OrgListComponent implements OnInit {
                 console.log(stream);
                 setTimeout(() => {
                     if (stream.active) {
-                        const audio = URL.createObjectURL(stream);
+                        const audio = window.URL.createObjectURL(stream);
                         console.log(audio);
                         this.listService.activeListItem.recording.push(audio);
                     } else {
