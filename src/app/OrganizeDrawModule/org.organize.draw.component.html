@@ -8,17 +8,16 @@
 </header>
 
 <section class="draw-container">
-    <!-- <canvas #canvas></canvas> -->
-    <svg #svg></svg>
+    <canvas orgDrawing #canvas [(clear)]="toggelClear"></canvas>
 </section>
 
 
 <footer>
     <section>
-        <i class="glyphicon glyphicon-erase"></i>
-        <i class="glyphicon glyphicon-erase"></i>
-        <i class="glyphicon glyphicon-erase"></i>
-        <i class="glyphicon glyphicon-erase"></i>
-        <i class="glyphicon glyphicon-erase"></i>
+        <i class="glyphicon glyphicon-erase" (click)="onClear()"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
+        <i class="glyphicon glyphicon-text-size"></i>
+        <i class="glyphicon glyphicon-text-color"></i>
+        <i class="glyphicon glyphicon-paperclip"></i>
     </section>
 </footer>

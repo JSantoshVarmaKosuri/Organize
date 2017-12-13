@@ -65,7 +65,7 @@ export class OrgListComponent implements OnInit {
 
     onDrawing() {
         this.listService.createListItem('draw', null, null, null, null, [], [], []);
-        this.router.navigate(['/editor', 'draw']);
+        this.router.navigate(['/draw']);
     }
 
     onCamera() {
