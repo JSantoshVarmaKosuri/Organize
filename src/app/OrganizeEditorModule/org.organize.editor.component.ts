@@ -174,8 +174,17 @@ export class OrganizeEditorComponent implements OnInit {
     }
 
     onRecording() {
-        this.recordingInput.nativeElement.click();
+        if (navigator && navigator.mediaDevices) {
+            navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+            .then(this.handleSuccess);
+        } else {
+            this.recordingInput.nativeElement.click();
+        }
     }
+
+    handleSuccess = function(stream) {
+        const audio = URL.createObjectURL(stream);
+    };
 
     onRecordingChange(event) {
         const file = event.target.files;
