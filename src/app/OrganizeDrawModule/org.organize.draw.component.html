@@ -8,7 +8,7 @@
 </header>
 
 <section class="draw-container">
-    <canvas orgDrawing #canvas [(clear)]="toggelClear"></canvas>
+    <canvas orgDrawing #canvas [clear]="toggelClear" (touched)="canvasTouched()"></canvas>
 </section>
 
 

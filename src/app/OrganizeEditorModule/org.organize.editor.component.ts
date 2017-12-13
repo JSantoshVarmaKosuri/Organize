@@ -73,9 +73,10 @@ export class OrganizeEditorComponent implements OnInit {
              description: string): boolean {
 
         if((description && this.listItem.type !== 'list') 
-        || !!title 
+        || !!title
         || (this.listItem.todo && (this.listItem.todo.active.length || this.listItem.todo.completed.length))
-        || (this.listItem.image.length)) {
+        || (this.listItem.image.length)
+        || (this.listItem.drawing.length)) {
             return true;
         } else {
             return false;
@@ -84,11 +85,12 @@ export class OrganizeEditorComponent implements OnInit {
 
     onBack() {
         const title = (this.listItem.title === '' || this.listItem.title === this.placeholders.title) ? null : this.listItem.title;
+        // tslint:disable-next-line:max-line-length
         const description = (this.listItem.description === '' || this.listItem.description === this.placeholders.description) ? null : this.listItem.description;
-        
+
         if (this.validate(title, description)) {
             this.listItem.title = title;
-            this.listItem.description = description;         
+            this.listItem.description = description;
 
             if (this.id) {
                 this.store.dispatch(new fromListActions.UpdateListItem(this.listItem));
@@ -117,10 +119,12 @@ export class OrganizeEditorComponent implements OnInit {
         this.toggelAddFeatures = true;
     }
 
-    onAddFeatureClose(type) {
+    onAddFeatureClose(type: string) {
         this.toggelAddFeatures = false;
         if (type === 'Camera') {
             this.onCamera();
+        } else if (type === 'Draw') {
+            this.onDrawing();
         }
     }
 
@@ -128,8 +132,11 @@ export class OrganizeEditorComponent implements OnInit {
         this.toggelOptions = true;
     }
 
-    onOptionsClose() {
+    onOptionsClose(type: string) {
         this.toggelOptions = false;
+        if (type === 'Delete') {
+            this.onDelete();
+        }
     }
 
     onCamera() {
@@ -144,5 +151,14 @@ export class OrganizeEditorComponent implements OnInit {
             this.listItem.image.push(url);
             event.target.value = '';
         }
+    }
+
+    onDrawing() {
+        this.router.navigate(['/draw']);
+    }
+
+    onDelete() {
+        this.store.dispatch(new fromListActions.DeleteListItem(this.listItem.id));
+        this.router.navigate(['/list']);
     }
 }

@@ -1,7 +1,7 @@
 <section class="options-menu-container" [@notesOptions]="toggleState">
     <ul class="options-menu">
         <li>
-            <div class="options-menu-item">
+            <div class="options-menu-item"  (click)="onItem('Delete')">
                 <i class="glyphicon glyphicon-trash"></i>
                 <p>Delete</p>
             </div>

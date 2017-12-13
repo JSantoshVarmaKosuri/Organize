@@ -17,14 +17,18 @@
 </header>
 
 <org-editor-notes *ngIf="toggelAddFeatures" (select)="onAddFeatureClose($event)"></org-editor-notes>
-<org-editor-options *ngIf="toggelOptions" (select)="onOptionsClose()"></org-editor-options>
+<org-editor-options *ngIf="toggelOptions" (select)="onOptionsClose($event)"></org-editor-options>
 
 <section class="list-editor-container">
 
     <!-- Editor body -->
     <article class="list-editor">
-        <section *ngIf="listItem.type === 'camera' && listItem.image.length" [ngClass]="{'block' : listItem.image.length > 1}">
+        <section *ngIf="listItem.image && listItem.image.length" [ngClass]="{'block' : listItem.image.length > 1}">
             <img *ngFor="let url of listItem.image" class="listImage" [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)"/>
+        </section>
+
+        <section *ngIf="listItem.drawing && listItem.drawing.length" [ngClass]="{'block' : listItem.drawing.length > 1}">
+            <img *ngFor="let url of listItem.drawing" class="listImage" [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)"/>
         </section>
 
         <div class="list-text-editor" [ngClass]="{'list-editor-alternate' : listItem.type !== 'note'}">

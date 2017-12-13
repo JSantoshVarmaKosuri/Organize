@@ -28,7 +28,7 @@ export class OrgListComponent implements OnInit {
                 private listService: OrganizeListService) {
         this.toggleMenu = false;
         this.toggleState = 'inactive';
-        this.toggleLayout = listService.layout;
+        this.toggleLayout = this.listService.layout;
     }
 
     ngOnInit() {
@@ -42,6 +42,7 @@ export class OrgListComponent implements OnInit {
 
     onLayout() {
         this.listService.layout = (this.listService.layout === 'list') ? 'grid' : 'list';
+        this.toggleLayout = this.listService.layout;
     }
 
     onSearch() {
@@ -65,7 +66,7 @@ export class OrgListComponent implements OnInit {
 
     onDrawing() {
         this.listService.createListItem('draw', null, null, null, null, [], [], []);
-        this.router.navigate(['/draw']);
+        this.router.navigate(['/draw'], {fragment : 'new'});
     }
 
     onCamera() {

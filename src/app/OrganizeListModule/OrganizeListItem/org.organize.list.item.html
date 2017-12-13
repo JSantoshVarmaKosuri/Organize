@@ -3,6 +3,10 @@
         <img class="listImage" *ngFor="let url of item.image" [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)" />
     </div>
 
+    <div *ngIf="item.drawing && item.drawing.length" [ngClass]="{'block' : item.drawing.length > 1}">
+        <img class="listImage" *ngFor="let url of item.drawing" [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)" />
+    </div>
+
     <div>
         <p *ngIf="item.title !== null" class="title">{{item.title}}</p>
         <p *ngIf="item.description !== null" class="description">{{item.description}}</p>

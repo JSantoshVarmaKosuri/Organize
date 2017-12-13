@@ -21,17 +21,30 @@ export function ListReducers(state = INIT_STATE, action) {
             const new_state2 = {
                 ...state
             };
-            const index = new_state2.list.findIndex((item) => item.id === action.payload.id);
+            const index1 = new_state2.list.findIndex((item) => item.id === action.payload.id);
 
-            if (index > -1) {
-                new_state2.list[index] = action.payload;
+            if (index1 > -1) {
+                new_state2.list[index1] = action.payload;
+            } else {
+                new_state2.list.push(action.payload);
             }
 
             return new_state2;
-        default:
+        case ActionsList.DELETE_ITEM:
             const new_state3 = {
                 ...state
             };
+
+            const index2 = new_state3.list.findIndex((item) => item.id === action.payload);
+            if (index2 > -1) {
+                new_state3.list.splice(index2, 1);
+            }
+
             return new_state3;
+        default:
+            const new_state4 = {
+                ...state
+            };
+            return new_state4;
     }
 }

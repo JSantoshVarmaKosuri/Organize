@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, ElementRef, HostListener, Renderer2, EventEmitter, OnChanges } from "@angular/core";
+import { Directive, Input, OnInit, ElementRef, HostListener, Renderer2, EventEmitter, OnChanges, Output } from "@angular/core";
 
 @Directive({
     selector: '[orgDrawing]'
@@ -11,6 +11,7 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
     clickDrag = [];
 
     @Input() clear: boolean;
+    @Output() touched = new EventEmitter<any>();
 
     constructor(private element: ElementRef,
                 private renderer: Renderer2) {
@@ -38,6 +39,7 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
         this.startDrawing = true;
         this.addClick(mouseX, mouseY, false);
         this.redraw();
+        this.touched.emit();
     }
 
     @HostListener('touchmove', ['$event'])
@@ -55,6 +57,7 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
 
             this.addClick(mouseX, mouseY, true);
             this.redraw();
+            this.touched.emit();
         }
     }
 
@@ -63,6 +66,7 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
     @HostListener('touchcancel')
     @HostListener('mouseleave') onMouseLeave() {
         this.startDrawing = false;
+        this.touched.emit();
     }
 
     addClick(x: number, y: number, dragging: boolean) {

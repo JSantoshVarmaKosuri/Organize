@@ -26,6 +26,13 @@ export class OrganizeEditorOptionsComponent {
         this.toggleState = 'active';
     }
 
+    onItem(type) {
+        this.toggleState = 'inactive';
+        setTimeout(() => {
+            this.select.emit(type);
+        }, 500);
+    }
+
     onMask() {
         this.toggleState = 'inactive';
         setTimeout(() => {

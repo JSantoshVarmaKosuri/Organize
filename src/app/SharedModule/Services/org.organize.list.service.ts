@@ -23,7 +23,7 @@ export class OrganizeListService {
                 active: [],
                 completed: []
             },
-            [],
+            drawing,
             [],
             image);
     }

@@ -48,12 +48,12 @@ header {
         list-style: none;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
 
         org-list-item {
             display: block;
-            width: 48%;
+            width: 49%;
         }
     }
 }
