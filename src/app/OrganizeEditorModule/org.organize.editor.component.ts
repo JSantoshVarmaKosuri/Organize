@@ -30,6 +30,7 @@ export class OrganizeEditorComponent implements OnInit {
     @ViewChild('title') title: ElementRef;
     @ViewChild('description') description: ElementRef;
     @ViewChild('image') imageInput: ElementRef;
+    @ViewChild('gallery') galleryInput: ElementRef;
 
     constructor(private router: Router, private route: ActivatedRoute,
                 private store: Store<AppState>,
@@ -123,6 +124,8 @@ export class OrganizeEditorComponent implements OnInit {
         this.toggelAddFeatures = false;
         if (type === 'Camera') {
             this.onCamera();
+        } else if (type === 'Gallery') {
+            this.onGallery();
         } else if (type === 'Draw') {
             this.onDrawing();
         }
@@ -144,6 +147,20 @@ export class OrganizeEditorComponent implements OnInit {
     }
 
     onCameraChange(event) {
+        const file = event.target.files;
+
+        if (file.length) {
+            const url = URL.createObjectURL(file[0]);
+            this.listItem.image.push(url);
+            event.target.value = '';
+        }
+    }
+
+    onGallery() {
+        this.galleryInput.nativeElement.click();
+    }
+
+    onGalleryChange(event) {
         const file = event.target.files;
 
         if (file.length) {

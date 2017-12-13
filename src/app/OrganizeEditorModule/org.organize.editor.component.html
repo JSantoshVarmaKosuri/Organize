@@ -44,6 +44,7 @@
 
     <!-- Hidden Inputs -->
     <input style="display: none;" type="file" accept="image/*" capture #image (change)="onCameraChange($event)" />
+    <input style="display: none;" type="file" accept="image/*" #gallery (change)="onCameraChange($event)" />
 
     <!-- Editor footer -->
     <footer class="list-editor-options"> 
