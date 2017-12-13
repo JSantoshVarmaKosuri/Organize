@@ -11,7 +11,7 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
     clickDrag = [];
 
     @Input() clear: boolean;
-    
+
     constructor(private element: ElementRef,
                 private renderer: Renderer2) {
         this.startDrawing = false;
@@ -23,31 +23,44 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
         }
     }
 
+    @HostListener('touchstart', ['$event'])
     @HostListener('mousedown', ['$event']) onMouseDown($event) {
-        const mouseX = $event.pageX - this.element.nativeElement.offsetLeft;
-        const mouseY = $event.pageY - this.element.nativeElement.offsetTop;
-        
+
+        if ($event.touches.length) {
+            var mouseX = $event.touches[0].pageX - this.element.nativeElement.offsetLeft;
+            var mouseY = $event.touches[0].pageY - this.element.nativeElement.offsetTop;
+        } else {
+            var mouseX = $event.pageX - this.element.nativeElement.offsetLeft;
+            var mouseY = $event.pageY - this.element.nativeElement.offsetTop;
+        }
+
         this.startDrawing = true;
-
         this.addClick(mouseX, mouseY, false);
-
         this.redraw();
     }
 
+    @HostListener('touchmove', ['$event'])
     @HostListener('mousemove', ['$event']) onMouseMove($event) {
-        if(this.startDrawing){
-            const mouseX = $event.pageX - this.element.nativeElement.offsetLeft;
-            const mouseY = $event.pageY - this.element.nativeElement.offsetTop;
+        if(this.startDrawing) {
+
+            if ($event.touches.length) {
+                var mouseX = $event.touches[0].pageX - this.element.nativeElement.offsetLeft;
+                var mouseY = $event.touches[0].pageY - this.element.nativeElement.offsetTop;
+            } else {
+                var mouseX = $event.pageX - this.element.nativeElement.offsetLeft;
+                var mouseY = $event.pageY - this.element.nativeElement.offsetTop;
+            }
+
             this.addClick(mouseX, mouseY, true);
             this.redraw();
         }
     }
 
-    @HostListener('mouseup') onMouseUp() {
-        this.startDrawing = false;
-    }
-
+    @HostListener('touchend')
+    @HostListener('mouseup')
+    @HostListener('touchcancel')
     @HostListener('mouseleave') onMouseLeave() {
+        console.log('touchend');
         this.startDrawing = false;
     }
 
