@@ -10,6 +10,8 @@ import { ListItem, ListItemModel } from '../SharedModule/Stores/Models/org.list.
 import * as fromListActions from '../SharedModule/Stores/ListStore/org.organize.list.actions';
 
 import { OrganizeListService } from '../SharedModule/Services/org.organize.list.service';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 
 @Component({
     selector: 'org-editor',
@@ -78,7 +80,8 @@ export class OrganizeEditorComponent implements OnInit {
         || !!title
         || (this.listItem.todo && (this.listItem.todo.active.length || this.listItem.todo.completed.length))
         || (this.listItem.image.length)
-        || (this.listItem.drawing.length)) {
+        || (this.listItem.drawing.length)
+        || (this.listItem.recording.length)) {
             return true;
         } else {
             return false;
@@ -175,16 +178,34 @@ export class OrganizeEditorComponent implements OnInit {
 
     onRecording() {
         if (navigator && navigator.mediaDevices) {
-            navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-            .then(this.handleSuccess);
+            navigator.getUserMedia({audio: true, video: false},
+            function(stream) {
+                console.log(stream);
+                const timer = Observable.create((observer: Observer<any>) => {
+                    setTimeout(() => {
+                        if (stream.active) {
+                            const audio = URL.createObjectURL(stream);
+                            observer.next(audio);
+                        } else {
+                            observer.error('no audio');
+                        }
+                        const track = stream.getTracks()[0];
+                        track.stop();
+                    }, 3000);
+                });
+                timer.take(1).subscribe((audio) => {
+                    this.listItem.recording.push(audio);
+                }, (error) => {
+                    console.log(error);
+                });
+            }.bind(this),
+            function(error) {
+                console.log('getUserMedia() error', error);
+            });
         } else {
             this.recordingInput.nativeElement.click();
         }
     }
-
-    handleSuccess = function(stream) {
-        const audio = URL.createObjectURL(stream);
-    };
 
     onRecordingChange(event) {
         const file = event.target.files;

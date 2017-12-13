@@ -1,14 +1,16 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 import 'rxjs/add/operator/take';
 
 import { AppState } from '../SharedModule/Models/org.organize.application.models';
-import { Observable } from 'rxjs/Observable';
 
 import { ListReducer } from '../SharedModule/Stores/Models/org.list.model';
 
 import { OrganizeListService } from '../SharedModule/Services/org.organize.list.service';
+
 
 @Component({
     selector: 'org-organize',
@@ -81,6 +83,36 @@ export class OrgListComponent implements OnInit {
     }
 
     onRecording() {
+        // if (navigator && navigator.mediaDevices) {
+        //     navigator.getUserMedia({audio: true, video: false},
+        //     function(stream) {
+        //         console.log(stream);
+        //         const timer = Observable.create((observer: Observer<any>) => {
+        //             setTimeout(() => {
+        //                 if (stream.active) {
+        //                     const audio = URL.createObjectURL(stream);
+        //                     observer.next(audio);
+        //                 } else {
+        //                     observer.error('no audio');
+        //                 }
+        //                 const track = stream.getTracks()[0];
+        //                 track.stop();
+        //             }, 3000);
+        //         });
+        //         timer.take(1).subscribe((audio) => {
+        //             this.listService.createListItem('record', null, null, null, null, [], [audio], []);
+        //             this.router.navigate(['/editor', 'record']);
+        //         }, (error) => {
+        //             console.log(error);
+        //         });
+        //     }.bind(this),
+        //     function(error) {
+        //         console.log('getUserMedia() error', error);
+        //     });
+        // } else {
+        //     this.recordingInput.nativeElement.click();
+        // }
+
         this.recordingInput.nativeElement.click();
     }
 
