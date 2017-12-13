@@ -40,12 +40,18 @@
         </div>
 
         <org-todo *ngIf="listItem.type === 'list'" [todoList]="listItem.todo"></org-todo>
+
+        <section *ngIf="listItem.recording && listItem.recording.length">
+            <!-- recording -->
+            <audio *ngFor="let url of listItem.recording" class="listAudio" [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)" controls></audio>
+        </section>
     </article>
 
     <!-- Hidden Inputs -->
     <input style="display: none;" type="file" accept="image/*" capture #image (change)="onCameraChange($event)" />
     <input style="display: none;" type="file" accept="image/*" #gallery (change)="onCameraChange($event)" />
-
+    <input style="display: none;" type="file" accept="audio/*" capture #recording (change)="onRecordingChange($event)">
+    
     <!-- Editor footer -->
     <footer class="list-editor-options"> 
         <div (click)="onAddFeatures()">

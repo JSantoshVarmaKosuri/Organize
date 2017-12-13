@@ -22,6 +22,7 @@ export class OrgListComponent implements OnInit {
     listState: Observable<ListReducer>;
 
     @ViewChild('image') imageInput: ElementRef;
+    @ViewChild('recording') recordingInput: ElementRef;
 
     constructor(private router: Router,
                 private store: Store<AppState>,
@@ -59,11 +60,6 @@ export class OrgListComponent implements OnInit {
         this.router.navigate(['/editor', 'note']);
     }
 
-    onRecord() {
-        this.listService.createListItem('record', null, null, null, null, [], [], []);
-        this.router.navigate(['/editor', 'record']);
-    }
-
     onDrawing() {
         this.listService.createListItem('draw', null, null, null, null, [], [], []);
         this.router.navigate(['/draw'], {fragment : 'new'});
@@ -81,6 +77,20 @@ export class OrgListComponent implements OnInit {
             this.listService.createListItem('camera', null, null, null, null, [], [], [url]);
             event.target.value = '';
             this.router.navigate(['/editor', 'camera']);
+        }
+    }
+
+    onRecording() {
+        this.recordingInput.nativeElement.click();
+    }
+
+    onRecordingChange(event) {
+        const file = event.target.files;
+        if (file.length) {
+            const audio = URL.createObjectURL(file[0]);
+            this.listService.createListItem('record', null, null, null, null, [], [audio], []);
+            event.target.value = '';
+            this.router.navigate(['/editor', 'record']);
         }
     }
 }

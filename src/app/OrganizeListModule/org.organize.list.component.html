@@ -28,8 +28,9 @@
     </article>
 
     <!-- Hidden Inputs -->
-    <input style="display: none;" type="file" accept="image/*" capture #image (change)="onCameraChange($event)" />
-
+    <input style="display: none;" type="file" accept="image/*" #image (change)="onCameraChange($event)" />
+    <input style="display: none;" type="file" accept="audio/*" capture #recording (change)="onRecordingChange($event)">
+    
     <!-- Notes Actions -->
     <footer class="list-notes-options">
         <section (click)="onNote()">
@@ -41,8 +42,8 @@
         <div (click)="onDrawing()">
             <i class="glyphicon glyphicon-pencil"></i>
         </div>
-        <div (click)="onRecord()">
-            <i class="glyphicon glyphicon-record"></i>
+        <div (click)="onRecording()">
+            <i class="fa fa-microphone"></i>
         </div>
         <div (click)="onCamera()"> 
             <i class="glyphicon glyphicon-camera"></i>

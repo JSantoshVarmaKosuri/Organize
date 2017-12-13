@@ -24,7 +24,7 @@ export class OrganizeListService {
                 completed: []
             },
             drawing,
-            [],
+            record,
             image);
     }
 }

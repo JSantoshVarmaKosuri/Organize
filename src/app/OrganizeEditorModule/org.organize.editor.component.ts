@@ -31,6 +31,7 @@ export class OrganizeEditorComponent implements OnInit {
     @ViewChild('description') description: ElementRef;
     @ViewChild('image') imageInput: ElementRef;
     @ViewChild('gallery') galleryInput: ElementRef;
+    @ViewChild('recording') recordingInput: ElementRef;
 
     constructor(private router: Router, private route: ActivatedRoute,
                 private store: Store<AppState>,
@@ -128,6 +129,8 @@ export class OrganizeEditorComponent implements OnInit {
             this.onGallery();
         } else if (type === 'Draw') {
             this.onDrawing();
+        } else if (type === 'Recording') {
+            this.onRecording();
         }
     }
 
@@ -166,6 +169,20 @@ export class OrganizeEditorComponent implements OnInit {
         if (file.length) {
             const url = URL.createObjectURL(file[0]);
             this.listItem.image.push(url);
+            event.target.value = '';
+        }
+    }
+
+    onRecording() {
+        this.recordingInput.nativeElement.click();
+    }
+
+    onRecordingChange(event) {
+        const file = event.target.files;
+
+        if (file.length) {
+            const audio = URL.createObjectURL(file[0]);
+            this.listItem.recording.push(audio);
             event.target.value = '';
         }
     }
