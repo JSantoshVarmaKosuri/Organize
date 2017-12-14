@@ -28,6 +28,10 @@ export class OrganizeDrawComponent implements OnInit {
         this.route.fragment.subscribe((param: string) => {
             this.newNote = param;
         });
+
+        if(!this.listService.activeListItem) {
+            this.router.navigate(['/list']);
+        }
     }
 
     onClear() {

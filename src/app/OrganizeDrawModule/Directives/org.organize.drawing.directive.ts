@@ -108,15 +108,19 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges, OnDestroy{
     }
 
     orientationchangeCallback(e) {
+        console.log(e);
+       setTimeout(() => {
         this.renderer.setAttribute(this.element.nativeElement, 'width' , this.context.canvas.offsetWidth);
         this.renderer.setAttribute(this.element.nativeElement, 'height' , this.context.canvas.offsetHeight);
+        this.clearCanvas();
+        this.redraw();
+       }, 100, this);
     }
 
     ngOnInit() {
         this.context = this.element.nativeElement.getContext("2d");
         this.renderer.setAttribute(this.element.nativeElement, 'width' , this.context.canvas.offsetWidth);
         this.renderer.setAttribute(this.element.nativeElement, 'height' , this.context.canvas.offsetHeight);
-
         (<any>window).addEventListener("orientationchange", this.orientationchangeCallback.bind(this), false);
     }
 
