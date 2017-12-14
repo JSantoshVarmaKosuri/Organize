@@ -1,9 +1,9 @@
-import { Directive, Input, OnInit, ElementRef, HostListener, Renderer2, EventEmitter, OnChanges, Output } from "@angular/core";
+import { Directive, Input, OnInit, ElementRef, HostListener, Renderer2, EventEmitter, OnChanges, Output, OnDestroy } from "@angular/core";
 
 @Directive({
     selector: '[orgDrawing]'
 })
-export class OrganizeDrawingDirective implements OnInit, OnChanges{
+export class OrganizeDrawingDirective implements OnInit, OnChanges, OnDestroy{
     context: any;
     startDrawing: boolean;
     clickX = [];
@@ -69,6 +69,10 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
         this.touched.emit();
     }
 
+    @HostListener('orientationchange', ['$event']) onOrientationchange($event) {
+        console.log($event);
+    }
+
     addClick(x: number, y: number, dragging: boolean) {
         this.clickX.push(x);
         this.clickY.push(y);
@@ -103,9 +107,20 @@ export class OrganizeDrawingDirective implements OnInit, OnChanges{
         }
     }
 
+    orientationchangeCallback(e) {
+        this.renderer.setAttribute(this.element.nativeElement, 'width' , this.context.canvas.offsetWidth);
+        this.renderer.setAttribute(this.element.nativeElement, 'height' , this.context.canvas.offsetHeight);
+    }
+
     ngOnInit() {
         this.context = this.element.nativeElement.getContext("2d");
         this.renderer.setAttribute(this.element.nativeElement, 'width' , this.context.canvas.offsetWidth);
         this.renderer.setAttribute(this.element.nativeElement, 'height' , this.context.canvas.offsetHeight);
+
+        (<any>window).addEventListener("orientationchange", this.orientationchangeCallback.bind(this), false);
+    }
+
+    ngOnDestroy() {
+        (<any>window).removeAllListeners();
     }
 }
