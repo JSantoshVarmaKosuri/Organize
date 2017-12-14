@@ -16,7 +16,7 @@ export class OrganizeListItemComponent implements OnInit {
                 private _DomSanitizationService: DomSanitizer) {}
 
     ngOnInit() {
-
+        
     }
 
     onListItem() {

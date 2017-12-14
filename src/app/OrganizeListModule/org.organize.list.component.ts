@@ -85,7 +85,7 @@ export class OrgListComponent implements OnInit {
     onRecording() {
         if (navigator && navigator.mediaDevices) {
             this.listService.createListItem('record', null, null, null, null, [], [], []);
-            this.router.navigate(['/editor', 'record']);
+            this.router.navigate(['/editor', 'record'], {fragment : 'new'});
             navigator.getUserMedia({audio: true, video: false},
             function(stream) {
                 console.log(stream);

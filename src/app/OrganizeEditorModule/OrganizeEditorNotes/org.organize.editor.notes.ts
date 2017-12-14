@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
@@ -20,6 +20,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 })
 export class OrganizeEditorNotesComponent {
     toggleState: string;
+    @Input('isList') isList: boolean;
     @Output() select = new EventEmitter<any>();
 
     constructor() {

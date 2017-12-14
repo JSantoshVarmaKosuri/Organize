@@ -24,10 +24,16 @@
                 <p>Draw</p>
             </div>
         </li>
-        <li>
+        <li *ngIf="!isList" (click)="onItem('List')">
             <div class="options-menu-item">
                 <i class="glyphicon glyphicon-th-list"></i>
                 <p>List</p>
+            </div>
+        </li>
+        <li *ngIf="isList">
+            <div class="options-menu-item" (click)="onItem('Note')">
+                <i class="glyphicon glyphicon-edit"></i>
+                <p>Note</p>
             </div>
         </li>
     </ul>

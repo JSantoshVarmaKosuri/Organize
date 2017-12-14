@@ -20,8 +20,9 @@
         </ul>
     </div>
 
-    <div *ngIf="item.recording && item.recording.length"><br><br></div>
     <section *ngIf="item.recording && item.recording.length" (click)="onListItem()">
-        <audio *ngFor="let url of item.recording" class="listAudio" [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)" controls></audio>
+        <div *ngFor="let url of item.recording" class="listAudio">
+            <audio [src]="_DomSanitizationService.bypassSecurityTrustUrl(url)" controls></audio>
+        </div>
     </section>
 </li>

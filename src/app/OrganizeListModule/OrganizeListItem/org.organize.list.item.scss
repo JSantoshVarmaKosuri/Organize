@@ -33,3 +33,12 @@ li.list-item {
         font-size: 1.2em;
     }
 }
+
+.listAudio {
+    display: flex;
+    margin-top: 5px;
+    
+    audio {
+        flex: 1;
+    }
+}

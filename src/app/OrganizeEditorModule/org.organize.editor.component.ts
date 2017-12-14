@@ -22,7 +22,9 @@ export class OrganizeEditorComponent implements OnInit {
     toggelAddFeatures: boolean;
     toggelOptions: boolean;
     type: string;
+    isList: boolean;
     id: string;
+    fragment: string;
     listItem: ListItemModel;
     placeholders = {
         title: 'Title',
@@ -41,10 +43,33 @@ export class OrganizeEditorComponent implements OnInit {
                 private _DomSanitizationService: DomSanitizer,
                 private ref: ChangeDetectorRef) {
         this.toggelAddFeatures = false;
+        this.route.fragment.subscribe((fragment: string) => {
+            this.fragment = fragment;
+        });
         this.route.params
         .subscribe((params) => {
             this.type = params.type;
             this.id = params.id || null;
+            (this.type === 'list') ? this.isList = true : this.isList = false;
+            
+            if (this.id) {
+                this.store.select('listStore')
+                .take(1)
+                .subscribe((data) => {
+                    const listItem = data.list.find((item) => item.id === this.id);
+                    if (listItem) {
+                        listItem.createdAt = (new Date).valueOf().toString();
+                        this.listItem = listItem;
+                        this.listService.activeListItem = listItem;
+                    } else {
+                        this.linkActiveItem();
+                    }
+                });
+            } else {
+                this.linkActiveItem();
+            }
+
+            this.listItem.type = this.type;
         });
     }
 
@@ -56,24 +81,7 @@ export class OrganizeEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this.id) {
-            this.store.select('listStore')
-            .take(1)
-            .subscribe((data) => {
-                const listItem = data.list.find((item) => item.id === this.id);
-                if (listItem) {
-                    listItem.createdAt = (new Date).valueOf().toString();
-                    this.listItem = listItem;
-                    this.listService.activeListItem = listItem;
-                } else {
-                    this.linkActiveItem();
-                }
-            });
-        } else {
-            this.linkActiveItem();
-        }
-
-        if (this.type === 'record') {
+        if (this.type === 'record' && this.fragment === 'new') {
             setTimeout(() => {
                 this.ref.detectChanges();
             }, 4000, this);
@@ -98,7 +106,14 @@ export class OrganizeEditorComponent implements OnInit {
     onBack() {
         const title = (this.listItem.title === '' || this.listItem.title === this.placeholders.title) ? null : this.listItem.title;
         // tslint:disable-next-line:max-line-length
-        const description = (this.listItem.description === '' || this.listItem.description === this.placeholders.description) ? null : this.listItem.description;
+        const description = (this.listItem.description === '' || this.listItem.description === this.placeholders.description || this.listItem.type === 'list') ? null : this.listItem.description;
+
+        if (this.listItem.type === 'note') {
+            this.listItem.todo = {
+                active: [],
+                completed: []
+            };
+        }
 
         if (this.validate(title, description)) {
             this.listItem.title = title;
@@ -141,6 +156,10 @@ export class OrganizeEditorComponent implements OnInit {
             this.onDrawing();
         } else if (type === 'Recording') {
             this.onRecording();
+        } else if (type === 'List') {
+            this.router.navigate(['/editor', 'list', this.listItem.id]);
+        } else if (type === 'Note') {
+            this.router.navigate(['/editor', 'note', this.listItem.id]);
         }
     }
 
@@ -195,17 +214,17 @@ export class OrganizeEditorComponent implements OnInit {
                         this.listItem.recording.push(audio);
                         this.ref.detectChanges();
 
-                        const context = new AudioContext();
-                        const source = context.createMediaStreamSource(stream);
-                        const processor = context.createScriptProcessor(1024, 1, 1);
+                        // const context = new AudioContext();
+                        // const source = context.createMediaStreamSource(stream);
+                        // const processor = context.createScriptProcessor(1024, 1, 1);
 
-                        source.connect(processor);
-                        processor.connect(context.destination);
+                        // source.connect(processor);
+                        // processor.connect(context.destination);
 
-                        processor.onaudioprocess = function(e) {
-                          // Do something with the data, i.e Convert this to WAV
-                          console.log(e.inputBuffer);
-                        };
+                        // processor.onaudioprocess = function(e) {
+                        //   // Do something with the data, i.e Convert this to WAV
+                        //   console.log(e.inputBuffer);
+                        // };
                     } else {
                         console.log('no audio');
                     }
