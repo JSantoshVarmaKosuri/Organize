@@ -242,7 +242,10 @@ export class OrganizeEditorComponent implements OnInit, OnChanges {
 
                 recognition.onerror = function(event) {
                     this.listItem.description = this.listItem.description + ' ' + 'Speech recognition error detected: ' + event.error;
+
+                    this.listItem.description = this.listItem.description + ' ' + 'Speech recognition error detected: ' + event.message;
                     console.log('Speech recognition error detected: ' + event.error);
+                    console.log('Additional information: ' + event.message);
                 }.bind(this);
 
                 recognition.onnomatch = function() {
