@@ -109,7 +109,8 @@ header {
 
 .listAudio {
     display: flex;
-
+    padding: 0em 10px;
+    
     audio {
         flex: 1;
     }

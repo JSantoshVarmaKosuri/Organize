@@ -207,13 +207,18 @@ export class OrganizeEditorComponent implements OnInit, OnChanges {
     }
 
     onRecording() {
-        if (navigator && navigator.mediaDevices) {
+        if (navigator && navigator.mediaDevices && (<any>window).MediaRecorder && ((<any>window).SpeechRecognition || (<any>window).webkitSpeechRecognition || (<any>window).mozSpeechRecognition || (<any>window).msSpeechRecognition)) {
             let audio;
             navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(function(stream) {
                 const chunks = [];
                 const context = new AudioContext();
-                const mediaRecorder = new (<any>window).MediaRecorder(stream);
-                const recognition = new (<any>window).webkitSpeechRecognition();
+                let options;
+                if ((<any>window).MediaRecorder.isTypeSupported('audio/webm')) {
+                    options = {mimeType: 'audio/webm'};
+                }
+                const mediaRecorder = new (<any>window).MediaRecorder(stream, options);
+                const recognition = new ((<any>window).SpeechRecognition || (<any>window).webkitSpeechRecognition || (<any>window).mozSpeechRecognition || (<any>window).msSpeechRecognition)();
+
                 recognition.continuous = true;
                 recognition.lang = 'en-US';
                 recognition.interimResults = false;
@@ -270,7 +275,7 @@ export class OrganizeEditorComponent implements OnInit, OnChanges {
                     const track = stream.getTracks()[0];
                     track.enabled = false;
                     track.stop();
-                }, 3000, this);
+                }, 5000, this);
             }.bind(this));
         } else {
             this.recordingInput.nativeElement.click();
