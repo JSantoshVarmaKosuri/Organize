@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, OnChanges } from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -18,7 +18,7 @@ import { Observer } from 'rxjs/Observer';
     templateUrl: 'org.organize.editor.component.html',
     styleUrls: ['org.organize.editor.component.scss']
 })
-export class OrganizeEditorComponent implements OnInit {
+export class OrganizeEditorComponent implements OnInit, OnChanges {
     toggelAddFeatures: boolean;
     toggelOptions: boolean;
     type: string;
@@ -86,6 +86,10 @@ export class OrganizeEditorComponent implements OnInit {
                 this.ref.detectChanges();
             }, 4000, this);
         }
+    }
+
+    ngOnChanges(simpleChanges) {
+        this.listItem = this.listService.activeListItem;
     }
 
     validate(title: string,
@@ -252,11 +256,6 @@ export class OrganizeEditorComponent implements OnInit {
                 mediaRecorder.onstop = function(e) {
                     const blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
                     const audio = URL.createObjectURL(blob);
-    
-                    console.log(chunks);
-                    console.log(blob);
-                    console.log(audio);
-                    console.log(stream.getTracks()[0]);
     
                     chunks.length = 0;
 

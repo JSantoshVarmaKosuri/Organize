@@ -86,24 +86,68 @@ export class OrgListComponent implements OnInit {
         if (navigator && navigator.mediaDevices) {
             this.listService.createListItem('record', null, null, null, null, [], [], []);
             this.router.navigate(['/editor', 'record'], {fragment : 'new'});
-            navigator.getUserMedia({audio: true, video: false},
-            function(stream) {
-                console.log(stream);
-                setTimeout(() => {
-                    if (stream.active) {
-                        const audio = window.URL.createObjectURL(stream);
-                        console.log(audio);
-                        this.listService.activeListItem.recording.push(audio);
-                    } else {
-                        console.log('no audio');
+            let audio;
+            navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(function(stream) {
+                const chunks = [];
+                const context = new AudioContext();
+                const mediaRecorder = new (<any>window).MediaRecorder(stream);
+                const recognition = new (<any>window).webkitSpeechRecognition();
+                recognition.continuous = true;
+                recognition.lang = 'en-US';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.onsoundstart = function() {
+                    console.log('Some sound is being received');
+                }
+
+                recognition.onresult = function(event) {
+                    try { 
+                        this.listService.activeListItem.description = this.listService.activeListItem.description + ' ' +  event.results[0][0].transcript;
+                        this.ref.detectChanges();
+                        console.log(this.listItem.description);
+                    } catch(e) {
+                        console.log(e);
                     }
+                    console.log(event.results[0][0].transcript);
+                }.bind(this);
+
+                recognition.onerror = function(event) {
+                    console.log('Speech recognition error detected: ' + event.error);
+                }
+
+                recognition.onnomatch = function() {
+                    console.log('Speech not recognised');
+                }
+
+                recognition.onsoundend = function() {
+                    console.log('Sound has stopped being received');
+                }
+
+                mediaRecorder.start();
+                recognition.start();
+
+                mediaRecorder.ondataavailable = function(e) {
+                    chunks.push(e.data);
+                }
+
+                mediaRecorder.onstop = function(e) {
+                    const blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+                    const audio = URL.createObjectURL(blob);
+    
+                    chunks.length = 0;
+
+                    this.listService.activeListItem.recording.push(audio);
+                }.bind(this);
+
+                setTimeout(function() {
+                    mediaRecorder.stop();
+                    recognition.stop();
                     const track = stream.getTracks()[0];
+                    track.enabled = false;
                     track.stop();
                 }, 3000, this);
-            }.bind(this),
-            function(error) {
-                console.log('getUserMedia() error', error);
-            });
+            }.bind(this));
         } else {
             this.recordingInput.nativeElement.click();
         }
