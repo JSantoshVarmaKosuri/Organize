@@ -280,7 +280,9 @@ export class OrganizeEditorComponent implements OnInit, OnChanges {
                     track.enabled = false;
                     track.stop();
                 }, 5000, this);
-            }.bind(this));
+            }.bind(this), function(error) {
+                alert(error);
+            });
         } else {
             this.recordingInput.nativeElement.click();
         }
