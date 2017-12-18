@@ -207,7 +207,7 @@ export class OrganizeEditorComponent implements OnInit, OnChanges {
     }
 
     onRecording() {
-        if (navigator && navigator.mediaDevices && (<any>window).MediaRecorder && ((<any>window).SpeechRecognition || (<any>window).webkitSpeechRecognition || (<any>window).mozSpeechRecognition || (<any>window).msSpeechRecognition)) {
+        if (navigator && navigator.mediaDevices && (<any>window).MediaRecorder) {
             let audio;
             navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(function(stream) {
                 const chunks = [];
@@ -226,8 +226,7 @@ export class OrganizeEditorComponent implements OnInit, OnChanges {
 
                 recognition.onsoundstart = function() {
                     console.log('Some sound is being received');
-                    this.listItem.description = this.listItem.description + ' ' +  'Some sound is being received';
-                }.bind(this);
+                }
 
                 recognition.onresult = function(event) {
                     try { 
@@ -241,22 +240,18 @@ export class OrganizeEditorComponent implements OnInit, OnChanges {
                 }.bind(this);
 
                 recognition.onerror = function(event) {
-                    this.listItem.description = this.listItem.description + ' ' + 'Speech recognition error detected: ' + event.error;
-
-                    this.listItem.description = this.listItem.description + ' ' + 'Speech recognition error detected: ' + event.message;
                     console.log('Speech recognition error detected: ' + event.error);
-                    console.log('Additional information: ' + event.message);
-                }.bind(this);
+                    this.listItem.description = this.listItem.description + ' ' +  event.error;
+                    this.listItem.description = this.listItem.description + ' ' +  JSON.stringify(event, undefined, 2);
+                }.bind(this)
 
                 recognition.onnomatch = function() {
-                    this.listItem.description = this.listItem.description + ' ' +  'Speech not recognised';
                     console.log('Speech not recognised');
-                }.bind(this);
+                }
 
                 recognition.onsoundend = function() {
-                    this.listItem.description = this.listItem.description + ' ' +  'Sound has stopped being received';
                     console.log('Sound has stopped being received');
-                }.bind(this);
+                }
 
                 mediaRecorder.start();
                 recognition.start();
@@ -283,9 +278,7 @@ export class OrganizeEditorComponent implements OnInit, OnChanges {
                     track.enabled = false;
                     track.stop();
                 }, 5000, this);
-            }.bind(this), function(error) {
-                alert(error);
-            });
+            }.bind(this));
         } else {
             this.recordingInput.nativeElement.click();
         }
