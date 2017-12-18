@@ -204,37 +204,75 @@ export class OrganizeEditorComponent implements OnInit {
 
     onRecording() {
         if (navigator && navigator.mediaDevices) {
-            navigator.getUserMedia({audio: true, video: false},
-            function(stream) {
-                console.log(stream);
-                setTimeout(() => {
-                    if (stream.active) {
-                        const audio = window.URL.createObjectURL(stream);
-                        console.log(audio);
-                        this.listItem.recording.push(audio);
+            let audio;
+            navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(function(stream) {
+                const chunks = [];
+                const context = new AudioContext();
+                const mediaRecorder = new (<any>window).MediaRecorder(stream);
+                const recognition = new (<any>window).webkitSpeechRecognition();
+                recognition.continuous = true;
+                recognition.lang = 'en-US';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.onsoundstart = function() {
+                    console.log('Some sound is being received');
+                }
+
+                recognition.onresult = function(event) {
+                    try { 
+                        this.listItem.description = this.listItem.description + ' ' +  event.results[0][0].transcript;
                         this.ref.detectChanges();
-
-                        // const context = new AudioContext();
-                        // const source = context.createMediaStreamSource(stream);
-                        // const processor = context.createScriptProcessor(1024, 1, 1);
-
-                        // source.connect(processor);
-                        // processor.connect(context.destination);
-
-                        // processor.onaudioprocess = function(e) {
-                        //   // Do something with the data, i.e Convert this to WAV
-                        //   console.log(e.inputBuffer);
-                        // };
-                    } else {
-                        console.log('no audio');
+                        console.log(this.listItem.description);
+                    } catch(e) {
+                        console.log(e);
                     }
+                    console.log(event.results[0][0].transcript);
+                }.bind(this);
+
+                recognition.onerror = function(event) {
+                    console.log('Speech recognition error detected: ' + event.error);
+                }
+
+                recognition.onnomatch = function() {
+                    console.log('Speech not recognised');
+                }
+
+                recognition.onsoundend = function() {
+                    console.log('Sound has stopped being received');
+                }
+
+                mediaRecorder.start();
+                recognition.start();
+
+                mediaRecorder.ondataavailable = function(e) {
+                    chunks.push(e.data);
+                }
+
+                mediaRecorder.onstop = function(e) {
+                    const blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+                    const audio = URL.createObjectURL(blob);
+    
+                    console.log(chunks);
+                    console.log(blob);
+                    console.log(audio);
+                    console.log(stream.getTracks()[0]);
+    
+                    chunks.length = 0;
+
+                    this.listItem.recording.push(audio);
+                    this.listService.activeListItem = this.listItem;
+                    this.ref.detectChanges();
+                }.bind(this);
+
+                setTimeout(function() {
+                    mediaRecorder.stop();
+                    recognition.stop();
                     const track = stream.getTracks()[0];
+                    track.enabled = false;
                     track.stop();
                 }, 3000, this);
-            }.bind(this),
-            function(error) {
-                console.log('getUserMedia() error', error);
-            });
+            }.bind(this));
         } else {
             this.recordingInput.nativeElement.click();
         }

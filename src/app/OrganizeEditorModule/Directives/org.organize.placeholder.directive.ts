@@ -1,9 +1,9 @@
-import { Directive, ElementRef, Input, HostListener, HostBinding, OnInit, Output, EventEmitter } from '@angular/core';
+import { Directive, ElementRef, Input, HostListener, HostBinding, OnInit, Output, EventEmitter, OnChanges } from '@angular/core';
 
 @Directive({
     selector: '[orgPlaceholder]'
 })
-export class OrganizePlaceholderDirective implements OnInit {
+export class OrganizePlaceholderDirective implements OnInit, OnChanges {
     @Input() orgPlaceholder: string;
     @Input() orgValue: string;
 
@@ -33,6 +33,10 @@ export class OrganizePlaceholderDirective implements OnInit {
     }
 
     ngOnInit() {
+        this.eleRef.nativeElement.innerText = this.orgValue || this.orgPlaceholder;
+    }
+
+    ngOnChanges(simpleChanges) {
         this.eleRef.nativeElement.innerText = this.orgValue || this.orgPlaceholder;
     }
 }
