@@ -226,6 +226,7 @@ export class OrganizeEditorComponent implements OnInit, OnChanges {
 
                 recognition.onsoundstart = function() {
                     console.log('Some sound is being received');
+                    this.listItem.description = this.listItem.description + ' ' +  'Some sound is being received';
                 }
 
                 recognition.onresult = function(event) {
@@ -240,14 +241,17 @@ export class OrganizeEditorComponent implements OnInit, OnChanges {
                 }.bind(this);
 
                 recognition.onerror = function(event) {
+                    this.listItem.description = this.listItem.description + ' ' +  event.error;
                     console.log('Speech recognition error detected: ' + event.error);
                 }
 
                 recognition.onnomatch = function() {
+                    this.listItem.description = this.listItem.description + ' ' +  'Speech not recognised';
                     console.log('Speech not recognised');
                 }
 
                 recognition.onsoundend = function() {
+                    this.listItem.description = this.listItem.description + ' ' +  'Sound has stopped being received';
                     console.log('Sound has stopped being received');
                 }
 
